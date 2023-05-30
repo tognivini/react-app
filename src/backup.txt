@@ -3,10 +3,18 @@ import './App.css';
 import axios from 'axios'
 
 function App() {
-  let users = document.getElementById("users");
+  const obj = []
 
-  const userList = []
-  
+  axios.get('http://localhost:3333/api/user').then(response => {
+    if(response.data){
+      obj.push(response.data)
+      // console.log('console', obj);
+    }
+    //  else {
+    //   obj.pop()
+    // }
+  });
+
   function createUser(event) {
     const payload = {
       email: "user",
@@ -17,54 +25,8 @@ function App() {
     axios.post('http://localhost:3333/api/user/create', payload).then(response => {
       console.log('console', response.data);
     });
+
   }
-
-  
-  function updateUser(clickedIndex) {
-    console.log('ping')
-    // const userId = userList[clickedIndex].id
-    // const payload = {
-    //   email: "email Updated",
-    //   phoneNumber: "88888",
-    //   name: "name Updated"
-    // }
-    
-    // axios.put(`http://localhost:3333/api/user/update/${userId}`, payload).then(response => {
-      //   console.log('console', response.data);
-      // });
-    }
-    
-  const edit = document.getElementById('edit')
-  if(edit){
-    edit.addEventListener('click', updateUser, true);
-  }
-
-
-  function getUsers() {
-    axios.get('http://localhost:3333/api/user').then(response => {
-      if(response.data && users){
-        users.innerHTML = "";
-        userList.push(...response.data)
-        response.data.map((user, index) => {
-          return (users.innerHTML += `
-            <tr id=${index}>
-              <td class="fw-bold">${user.name}</td>
-              <td class="small text-secondary">${user.email}</td>
-              <td class="small text-secondary">${user.phoneNumber}</td>
-              <td class="options">
-                <button id="edit" onclick="updateUser(${index})">EDIT</button>
-              </td>
-              <td>
-                <button onclick="deleteUser(${index})" class="fas fa-trash-alt">REMOVE</button>
-              </td>
-            </tr>
-          `);
-        });
-      }
-    });
-  }
-
-  getUsers();
 
 // var mytodo_list=["Do Exercise","Take Bath","Have Breakfast"];
   /*CREATE*/
@@ -123,17 +85,35 @@ function App() {
             {/* action="javascript:void(0)" */}
           <form id="CreateUser">
               <input type="text" id="add-task" placeholder="New Task"/> 
-              <input type="submit" value="Create" onClick={()=> createUser() }/>
+              <input type="submit" value="Create" onClick={()=>createUser()}/>
             </form>
           <table>
             <thead>
               <tr>
-                <th>Nomes</th>
-                <th>Email</th>
-                <th>Telefone</th>
+                <th>Month</th>
+                <th>Savings</th>
+                <th>Savings2</th>
               </tr>
             </thead>
-            <tbody id="users">
+            <tbody>
+              <tr>
+                <td>January</td>
+                <td>$100</td>
+                <td>$1002</td>
+              </tr>
+              {
+                
+              }
+              {obj.length > 0 && obj.map(obb => {
+                // console.log(Object.keys(obb));  // Prints: an empty Array.
+                console.log('console', obb)
+                // return (
+                //   <tr>
+                //     <td>{obb[0].id}</td>
+                //     <td>$101230</td>
+                //   </tr>
+                // )
+              })}
             </tbody>
           </table>
           </div> 

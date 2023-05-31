@@ -19,14 +19,11 @@
       <header class="App-header">
         <div class="mytodo-container">
           <div class="mytodo-list">
-          <form id="CreateUser">
-            <input type="text" id="add-task" placeholder="New Task"/> 
-            <input type="submit" value="Create" />
-          </form>
-          <table>
+          <button id="create" type="submit" onclick="{(e) => createUser(e)}"> Create </button>
+          <table class="table">
             <thead>
               <tr>
-                <th>Nomes</th>
+                <th>Nome</th>
                 <th>Email</th>
                 <th>Telefone</th>
               </tr>

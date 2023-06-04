@@ -20,7 +20,7 @@ if(delUser){
 async function getUsers() {
     userList = []
     users.innerHTML = ''
-    axios.get('http://localhost:3333/api/user').then(response => {
+    await axios.get('http://localhost:3333/api/user').then(response => {
         if(response.data){
             userList.push(...response.data)
             response.data.map((user, index) => {
@@ -29,12 +29,6 @@ async function getUsers() {
                     <td class="fw-bold">${user.name}</td>
                     <td class="small text-secondary">${user.email}</td>
                     <td class="small text-secondary">${user.phoneNumber}</td>
-                    <td class="options">
-                      <button id="edit" onclick="updateUser(${index})">EDIT</button>
-                    </td>
-                    <td>
-                      <button id="delUser" onclick="deleteUser(${index})" class="fas fa-trash-alt">REMOVE</button>
-                    </td>
                   </tr>
                 `);
             });
@@ -53,23 +47,27 @@ async function createUser(event) {
     getUsers()
 }
 
-async function updateUser(clickedIndex) {
-    const userId = userList[clickedIndex].id
-    const payload = {
-        email: "email Updated",
-        phoneNumber: "88888",
-        name: "name Updated"
-    }
-    await axios.put(`http://localhost:3333/api/user/update/${userId}`, payload).then(response => {
-       console.log('console', response.data);
-    });
-    getUsers()
+async function updateUser(event) {
+    event.preventDefault()
+    userList.map( async (user) => {
+        const userId = user.id
+        const payload = {
+            email: "email Updated",
+            phoneNumber: "88888",
+            name: "name Updated"
+        }
+        await axios.put(`http://localhost:3333/api/user/update/${userId}`, payload)
+    })
+    setTimeout(getUsers, 500);
 }
 
-async function deleteUser(clickedIndex) {
-    const userId = userList[clickedIndex].id
-    await axios.delete(`http://localhost:3333/api/user/delete/${userId}`);
-    getUsers()
+async function deleteUser(event) {
+    event.preventDefault()
+    userList.map( async (user) => {
+        const userId = user.id
+        await axios.delete(`http://localhost:3333/api/user/delete/${userId}`);
+    })
+    setTimeout(getUsers, 500);
 }
     
 getUsers()

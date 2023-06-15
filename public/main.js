@@ -2,6 +2,11 @@
 let users = document.getElementById("users");
 let userList = []
 
+// const loadHeader = document.getElementById('loadHeader')
+// if(loadHeader){
+//     loadHeader.addEventListener('load', getFunctionRoute, true);
+// }
+
 const create = document.getElementById('create')
 if(create){
     create.addEventListener('click', createUser, true);
@@ -16,8 +21,9 @@ const delUser = document.getElementById('delete')
 if(delUser){
     delUser.addEventListener('click', deleteUser, true);
 }
-    
+
 async function getUsers() {
+    console.log('get')
     userList = []
     users.innerHTML = ''
     await axios.get('http://localhost:3333/api/user').then(response => {
@@ -37,7 +43,7 @@ async function getUsers() {
 }
 
 async function createUser(event) {
-    event.preventDefault()
+    // event.preventDefault()
     const payload = {
       email: "user",
       phoneNumber: "99999",
@@ -69,5 +75,22 @@ async function deleteUser(event) {
     })
     setTimeout(getUsers, 500);
 }
-    
-getUsers()
+// const pathToRegex = path =>
+//   new RegExp('^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$');
+
+
+
+async function getFunctionRoute() {
+    const loc = document.location;
+    console.log(loc.href)
+    if(loc.href === 'http://localhost:3000/create'){
+        console.log('ping')
+        // eslint-disable-next-line no-restricted-globals
+        await createUser()
+    }
+    // const result = loc.pathname.match(pathToRegex(route.path))
+    // console.log(result)
+}
+
+getFunctionRoute()
+// getUsers()

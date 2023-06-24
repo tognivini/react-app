@@ -18,7 +18,6 @@ if(delUser){
 }
 
 async function getUsers() {
-    console.log('get')
     userList = []
     users.innerHTML = ''
     await axios.get('http://localhost:3333/api/user').then(response => {
@@ -70,6 +69,7 @@ async function deleteUser(event) {
     })
     setTimeout(getUsers, 300);
 }
+
 async function getFunctionRoute() {
     const loc = document.location;
     switch (loc.href) {

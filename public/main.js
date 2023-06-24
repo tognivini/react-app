@@ -2,11 +2,6 @@
 let users = document.getElementById("users");
 let userList = []
 
-// const loadHeader = document.getElementById('loadHeader')
-// if(loadHeader){
-//     loadHeader.addEventListener('load', getFunctionRoute, true);
-// }
-
 const create = document.getElementById('create')
 if(create){
     create.addEventListener('click', createUser, true);
@@ -54,7 +49,7 @@ async function createUser(event) {
 }
 
 async function updateUser(event) {
-    event.preventDefault()
+    // event.preventDefault()
     userList.map( async (user) => {
         const userId = user.id
         const payload = {
@@ -64,33 +59,39 @@ async function updateUser(event) {
         }
         await axios.put(`http://localhost:3333/api/user/update/${userId}`, payload)
     })
-    setTimeout(getUsers, 500);
+    setTimeout(getUsers, 300);
 }
 
 async function deleteUser(event) {
-    event.preventDefault()
+    // event.preventDefault()
     userList.map( async (user) => {
         const userId = user.id
         await axios.delete(`http://localhost:3333/api/user/delete/${userId}`);
     })
-    setTimeout(getUsers, 500);
+    setTimeout(getUsers, 300);
 }
-// const pathToRegex = path =>
-//   new RegExp('^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$');
-
-
-
 async function getFunctionRoute() {
     const loc = document.location;
-    console.log(loc.href)
-    if(loc.href === 'http://localhost:3000/create'){
-        console.log('ping')
-        // eslint-disable-next-line no-restricted-globals
-        await createUser()
+    switch (loc.href) {
+        case 'http://localhost:3000/':
+            await getUsers()
+        break;
+
+        case 'http://localhost:3000/create':
+            await createUser()
+        break;
+
+        case 'http://localhost:3000/edit':
+            await getUsers().then(()=> updateUser())
+        break;
+
+        case 'http://localhost:3000/delete':
+            await getUsers().then(()=> deleteUser())
+        break;
+        
+        default:
+            await getUsers()
     }
-    // const result = loc.pathname.match(pathToRegex(route.path))
-    // console.log(result)
 }
 
 getFunctionRoute()
-// getUsers()

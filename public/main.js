@@ -49,25 +49,25 @@ async function createUser(event) {
 
 async function updateUser(event) {
     // event.preventDefault()
-    userList.map( async (user) => {
-        const userId = user.id
+    if(userList[0]?.id){
+        const userId = userList[0]?.id
         const payload = {
             email: "email Updated",
             phoneNumber: "88888",
             name: "name Updated"
         }
         await axios.put(`http://localhost:3333/api/user/update/${userId}`, payload)
-    })
-    setTimeout(getUsers, 300);
+        getUsers()
+    }
 }
 
 async function deleteUser(event) {
     // event.preventDefault()
-    userList.map( async (user) => {
-        const userId = user.id
-        await axios.delete(`http://localhost:3333/api/user/delete/${userId}`);
-    })
-    setTimeout(getUsers, 300);
+    if(userList[0]?.id){
+        const userId = userList[0]?.id
+        await axios.delete(`http://localhost:3333/api/user/delete/${userId}`)
+        getUsers()
+    }
 }
 
 async function getFunctionRoute() {

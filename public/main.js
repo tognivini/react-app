@@ -37,18 +37,19 @@ async function getUsers() {
 }
 
 async function createUser(event) {
-    // event.preventDefault()
     const payload = {
       email: "user",
       phoneNumber: "99999",
       name: "name user"
     }
-    await axios.post('http://localhost:3333/api/user/create', payload);
-    getUsers()
+    await axios.post('http://localhost:3333/api/user/create', payload).then(response=> {
+        if(response.status === 200){
+            getUsers()
+        } 
+    });
 }
 
 async function updateUser(event) {
-    // event.preventDefault()
     if(userList[0]?.id){
         const userId = userList[0]?.id
         const payload = {
@@ -56,17 +57,22 @@ async function updateUser(event) {
             phoneNumber: "88888",
             name: "name Updated"
         }
-        await axios.put(`http://localhost:3333/api/user/update/${userId}`, payload)
-        getUsers()
+        await axios.put(`http://localhost:3333/api/user/update/${userId}`, payload).then(response => {
+            if(response.status === 200){
+                getUsers()
+            }
+        })
     }
 }
 
 async function deleteUser(event) {
-    // event.preventDefault()
     if(userList[0]?.id){
         const userId = userList[0]?.id
-        await axios.delete(`http://localhost:3333/api/user/delete/${userId}`)
-        getUsers()
+        await axios.delete(`http://localhost:3333/api/user/delete/${userId}`).then(response => {
+            if(response.status === 200){
+                getUsers()
+            }
+        })
     }
 }
 
